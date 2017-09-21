@@ -15,8 +15,9 @@ class CreateRecipeDirectionsTable extends Migration
     {
         Schema::create('recipe_directions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('recipe_id')->unsigned();
             $table->string('description');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
