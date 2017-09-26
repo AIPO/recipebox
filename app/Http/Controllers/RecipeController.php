@@ -114,8 +114,8 @@ class RecipeController extends Controller
             ->findOrFail($id);
         $ingredients = [];
         $ingredientsUpdated = [];
-        foreach($request->ingredients as $ingredient) {
-            if(isset($ingredient['id'])) {
+        foreach ($request->ingredients as $ingredient) {
+            if (isset($ingredient['id'])) {
                 RecipeIngredient::where('recipe_id', $recipe->id)
                     ->where('id', $ingredient['id'])
                     ->update($ingredient);
@@ -126,8 +126,8 @@ class RecipeController extends Controller
         }
         $directions = [];
         $directionsUpdated = [];
-        foreach($request->directions as $direction) {
-            if(isset($direction['id'])) {
+        foreach ($request->directions as $direction) {
+            if (isset($direction['id'])) {
                 RecipeDirection::where('recipe_id', $recipe->id)
                     ->where('id', $direction['id'])
                     ->update($direction);
@@ -143,7 +143,7 @@ class RecipeController extends Controller
             $filename = $this->getFileName($request->image);
             $request->image->move(base_path('/public/images'), $filename);
             // remove old image
-            File::delete(base_path('/public/images/'.$recipe->image));
+            File::delete(base_path('/public/images/' . $recipe->image));
             $recipe->image = $filename;
         }
         $recipe->save();
@@ -153,10 +153,10 @@ class RecipeController extends Controller
         RecipeDirection::whereNotIn('id', $directionsUpdated)
             ->where('recipe_id', $recipe->id)
             ->delete();
-        if(count($ingredients)) {
+        if (count($ingredients)) {
             $recipe->ingredients()->saveMany($ingredients);
         }
-        if(count($directions)) {
+        if (count($directions)) {
             $recipe->directions()->saveMany($directions);
         }
         return response()
@@ -166,6 +166,7 @@ class RecipeController extends Controller
                 'message' => 'You have successfully updated recipe!'
             ]);
     }
+
     public function destroy($id, Request $request)
     {
         $recipe = $request->user()->recipes()
@@ -175,7 +176,7 @@ class RecipeController extends Controller
         RecipeDirection::where('recipe_id', $recipe->id)
             ->delete();
         // remove image
-        File::delete(base_path('/public/images/'.$recipe->image));
+        File::delete(base_path('/public/images/' . $recipe->image));
         $recipe->delete();
         return response()
             ->json([
