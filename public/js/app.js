@@ -1620,7 +1620,8 @@ module.exports = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
+throw new Error("Cannot find module \"../../helpers/flash\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
 //
 //
 //
@@ -1666,6 +1667,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -1676,7 +1678,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: '',
         email: '',
         password: '',
-        password_confirm: ''
+        password_confirmation: ''
       },
       error: {},
       isProcessing: false
@@ -1689,8 +1691,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.isProcessing = true;
       this.error = {};
-      Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* post */])('/api/register', this.form).then(function (res) {
+      Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* post */])('api/register', this.form).then(function (res) {
         if (res.data.registered) {
+          __WEBPACK_IMPORTED_MODULE_0__helpers_flash___default.a.setSuccess('Congratulations! You have now successfully registered.');
           _this.$router.push('/login');
         }
         _this.isProcessing = false;

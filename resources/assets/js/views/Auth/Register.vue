@@ -44,6 +44,7 @@
     </div>
 </template>
 <script type="text/javascript">
+  import Flash from '../../helpers/flash'
   import { post } from '../../helpers/api'
 
   export default {
@@ -53,7 +54,7 @@
           name: '',
           email: '',
           password: '',
-          password_confirm: ''
+          password_confirmation: ''
         },
         error: {},
         isProcessing: false
@@ -63,12 +64,14 @@
       register () {
         this.isProcessing = true
         this.error = {}
-        post(`/api/register`, this.form).then((res) => {
-          if (res.data.registered) {
-            this.$router.push('/login')
-          }
-          this.isProcessing = false
-        })
+        post('api/register', this.form)
+          .then((res) => {
+            if (res.data.registered) {
+              Flash.setSuccess('Congratulations! You have now successfully registered.')
+              this.$router.push('/login')
+            }
+            this.isProcessing = false
+          })
           .catch((err) => {
             if (err.response.status === 422) {
               this.error = err.response.data
