@@ -1,7 +1,7 @@
 <template>
     <div class="column is-half is-offset-one-quarter">
         <section class="section ">
-            <form class="form" @submit.prerent="register">
+            <form class="form" @submit.prerent="register" action="POST">
                 <h1 class="title">Create an Account</h1>
                 <div class="field">
                     <label for="name" class="label">Name</label>
@@ -44,6 +44,8 @@
     </div>
 </template>
 <script type="text/javascript">
+  import { post } from '../../helpers/api'
+
   export default {
     data () {
       return {
@@ -58,7 +60,22 @@
       }
     },
     methods: {
-      register () {}
+      register () {
+        this.isProcessing = true
+        this.error = {}
+        post(`/api/register`, this.form).then((res) => {
+          if (res.data.registered) {
+            this.$router.push('/login')
+          }
+          this.isProcessing = false
+        })
+          .catch((err) => {
+            if (err.response.status === 422) {
+              this.error = err.response.data
+            }
+            this.isProcessing = false
+          })
+      }
     }
   }
 </script>
